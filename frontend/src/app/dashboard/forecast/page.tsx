@@ -8,12 +8,6 @@ import { AlertTriangle, CheckCircle2, BrainCircuit, CalendarDays } from "lucide-
 export default async function ForecastPage() {
   const data = await api.forecast();
 
-  const rollingAsAttendance = data.rolling_trend.map((d) => ({
-    week: d.week,
-    predicted: Math.round((d.rate / 100) * 450),
-    actual: null as number | null,
-  }));
-
   return (
     <div className="p-8 space-y-8">
       <div className="flex items-start justify-between">
@@ -91,10 +85,10 @@ export default async function ForecastPage() {
         <Card className="border border-gray-100 shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-semibold text-gray-800">Rolling Attendance Rate (4 weeks)</CardTitle>
-            <p className="text-xs text-gray-400">Approximate student count from rate × 450 enrolled</p>
+            <p className="text-xs text-gray-400">Same attendance history feeding this week&apos;s forecast</p>
           </CardHeader>
           <CardContent>
-            <AttendanceChart data={rollingAsAttendance} />
+            <AttendanceChart data={data.rolling_trend} />
           </CardContent>
         </Card>
 

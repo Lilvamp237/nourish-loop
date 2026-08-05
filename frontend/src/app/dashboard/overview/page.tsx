@@ -7,7 +7,15 @@ import { Users, Coins, Activity, Trash2, PiggyBank, Lightbulb, BrainCircuit } fr
 
 export default async function OverviewPage() {
   const data = await api.overview();
-  const { kpis, insight, model_mae, attendance_trend, food_group_coverage, school } = data;
+  const { kpis, insight, model_mae, attendance_trend, food_group_coverage, school, date } = data;
+
+  const [y, m, d] = date.split("-").map(Number);
+  const displayDate = new Date(y, m - 1, d).toLocaleDateString("en-LK", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const kpiCards = [
     {
@@ -57,7 +65,7 @@ export default async function OverviewPage() {
       {/* Page header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
-        <p className="text-gray-500 text-sm mt-1">{school} · Today, {new Date().toLocaleDateString("en-LK", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
+        <p className="text-gray-500 text-sm mt-1">{school} · Today, {displayDate}</p>
       </div>
 
       {/* KPI row */}

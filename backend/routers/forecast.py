@@ -59,11 +59,11 @@ def get_forecast():
             },
         ],
         "rolling_trend": [
-            {"week": "Week 1", "rate": 80.2},
-            {"week": "Week 2", "rate": 82.7},
-            {"week": "Week 3", "rate": 84.1},
-            {"week": "Week 4", "rate": 85.8},
-            {"week": "This Week", "rate": 86.0},
+            {"week": "Week 1", "rate": 80.2, "predicted": 368, "actual": 361},
+            {"week": "Week 2", "rate": 82.7, "predicted": 374, "actual": 379},
+            {"week": "Week 3", "rate": 84.1, "predicted": 382, "actual": 388},
+            {"week": "Week 4", "rate": 85.8, "predicted": 385, "actual": 391},
+            {"week": "This Week", "rate": 86.0, "predicted": 387, "actual": None},
         ],
         "shap_factors": [
             {"factor": "Term 2 (historically high)", "impact": 6.4, "direction": "positive"},

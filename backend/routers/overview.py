@@ -7,6 +7,7 @@ router = APIRouter()
 def get_overview():
     return {
         "school": "Mahinda Rajapaksa National School",
+        "date": "2026-08-03",
         "kpis": {
             "predicted_attendance": 387,
             "enrolled": 450,

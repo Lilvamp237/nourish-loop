@@ -10,6 +10,7 @@ export interface KPIs {
 
 export interface OverviewData {
   school: string;
+  date: string;
   kpis: KPIs;
   insight: string;
   model_mae: number;
@@ -40,7 +41,7 @@ export interface ForecastData {
   mape_pct: number;
   drift_alert: boolean;
   next_5_days: ForecastDay[];
-  rolling_trend: { week: string; rate: number }[];
+  rolling_trend: { week: string; rate: number; predicted: number; actual: number | null }[];
   shap_factors: ShapFactor[];
 }
 

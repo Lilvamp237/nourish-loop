@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -10,6 +11,8 @@ import {
   BarChart3,
   UtensilsCrossed,
   School,
+  Menu,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,17 +26,65 @@ const navItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <div className="flex min-h-screen bg-slate-50">
-      {/* Sidebar */}
-      <aside className="w-64 flex-shrink-0 flex flex-col" style={{ backgroundColor: "#0f2137" }}>
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-7 border-b border-white/10">
-          <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500">
+      {/* Mobile top bar */}
+      <div
+        className="md:hidden fixed top-0 inset-x-0 z-30 flex items-center justify-between px-4 py-3"
+        style={{ backgroundColor: "#0f2137" }}
+      >
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500">
             <UtensilsCrossed className="w-4 h-4 text-white" />
           </div>
-          <span className="text-white text-lg font-bold tracking-tight">NourishLoop</span>
+          <span className="text-white text-base font-bold tracking-tight">NourishLoop</span>
+        </div>
+        <button
+          onClick={() => setMobileOpen(true)}
+          aria-label="Open menu"
+          className="text-white p-1.5 rounded-lg hover:bg-white/10"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Mobile backdrop */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/50"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          "w-64 flex-shrink-0 flex flex-col fixed inset-y-0 left-0 z-50 transition-transform duration-200 md:static md:translate-x-0",
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+        style={{ backgroundColor: "#0f2137" }}
+      >
+        {/* Logo */}
+        <div className="flex items-center justify-between gap-3 px-6 py-7 border-b border-white/10">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500">
+              <UtensilsCrossed className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-white text-lg font-bold tracking-tight">NourishLoop</span>
+          </div>
+          <button
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+            className="md:hidden text-slate-400 hover:text-white p-1"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Nav */}
@@ -73,7 +124,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Content */}
-      <main className="flex-1 overflow-auto">{children}</main>
+      <main className="flex-1 overflow-auto pt-14 md:pt-0">{children}</main>
     </div>
   );
 }

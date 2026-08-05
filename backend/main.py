@@ -7,7 +7,11 @@ app = FastAPI(title="NourishLoop API", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    # Next.js auto-bumps to 3001/3002/etc. when 3000 is already taken (common on
+    # Windows dev machines), so match any localhost/127.0.0.1 port rather than a
+    # single hardcoded one — otherwise the frontend silently CORS-fails on
+    # whichever machine has something else already listening on 3000.
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1):\d+",
     allow_methods=["*"],
     allow_headers=["*"],
 )
