@@ -31,7 +31,7 @@ export default function Home() {
 
         {/* Role selection cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mb-10">
-          <Link href="/dashboard/recommendations">
+          <Link href="/dashboard/planner/today">
             <div className="group bg-white/5 border border-white/10 hover:border-emerald-500/60 hover:bg-white/10 rounded-2xl p-8 cursor-pointer transition-all duration-200">
               <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-5 group-hover:bg-emerald-500/30 transition-colors">
                 <UtensilsCrossed className="w-6 h-6 text-emerald-400" />
@@ -46,7 +46,7 @@ export default function Home() {
             </div>
           </Link>
 
-          <Link href="/dashboard/overview">
+          <Link href="/dashboard/coordinator/overview">
             <div className="group bg-white/5 border border-white/10 hover:border-emerald-500/60 hover:bg-white/10 rounded-2xl p-8 cursor-pointer transition-all duration-200">
               <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-500/30 transition-colors">
                 <BarChart3 className="w-6 h-6 text-blue-400" />

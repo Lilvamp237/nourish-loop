@@ -56,4 +56,5 @@ export const api = {
     }),
   modifyPlan: (planId: string, meal: string, servings: number) =>
     post<PlanActionResponse>(`/api/plans/${planId}/modify`, { meal, servings }),
+  getPlanStatus: (planId: string) => get<{ plan_id: string; status: string }>(`/api/plans/${planId}`),
 };

@@ -115,7 +115,7 @@ export default function FeedbackPage() {
                 <div>
                   <p className="leading-relaxed">{affectsMessage}</p>
                   <Link
-                    href="/dashboard/recommendations"
+                    href="/dashboard/planner/recommendations"
                     className="inline-flex items-center gap-1 text-emerald-700 font-semibold text-xs mt-1.5 hover:underline"
                   >
                     See it reflected in Meal Recommendations <ArrowRight className="w-3 h-3" />

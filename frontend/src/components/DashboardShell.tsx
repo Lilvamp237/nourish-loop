@@ -4,29 +4,59 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
-  TrendingUp,
-  ClipboardList,
-  MessageSquarePlus,
-  BarChart3,
   UtensilsCrossed,
   School,
   Menu,
   X,
+  ArrowLeftRight,
+  CalendarCheck,
+  ClipboardList,
+  MessageSquarePlus,
+  LayoutDashboard,
+  TrendingUp,
+  BarChart3,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  { href: "/dashboard/overview", label: "Overview", icon: LayoutDashboard },
-  { href: "/dashboard/forecast", label: "Demand Forecast", icon: TrendingUp },
-  { href: "/dashboard/recommendations", label: "Meal Plan", icon: ClipboardList },
-  { href: "/dashboard/feedback", label: "Feedback", icon: MessageSquarePlus },
-  { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
-];
+interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+}
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+type Role = "planner" | "coordinator";
+
+const ROLE_CONFIG: Record<
+  Role,
+  { navItems: NavItem[]; roleLabel: string; switchHref: string; switchLabel: string }
+> = {
+  planner: {
+    roleLabel: "Meal Planner",
+    switchHref: "/dashboard/coordinator/overview",
+    switchLabel: "Switch to Coordinator view",
+    navItems: [
+      { href: "/dashboard/planner/today", label: "Today", icon: CalendarCheck },
+      { href: "/dashboard/planner/recommendations", label: "Meal Plan", icon: ClipboardList },
+      { href: "/dashboard/planner/feedback", label: "Feedback", icon: MessageSquarePlus },
+    ],
+  },
+  coordinator: {
+    roleLabel: "Coordinator",
+    switchHref: "/dashboard/planner/today",
+    switchLabel: "Switch to Meal Planner view",
+    navItems: [
+      { href: "/dashboard/coordinator/overview", label: "Overview", icon: LayoutDashboard },
+      { href: "/dashboard/coordinator/forecast", label: "Demand Forecast", icon: TrendingUp },
+      { href: "/dashboard/coordinator/analytics", label: "Analytics", icon: BarChart3 },
+    ],
+  },
+};
+
+export default function DashboardShell({ children, role }: { children: React.ReactNode; role: Role }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { navItems, roleLabel, switchHref, switchLabel } = ROLE_CONFIG[role];
 
   useEffect(() => {
     setMobileOpen(false);
@@ -87,6 +117,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </button>
         </div>
 
+        {/* Role badge */}
+        <div className="px-6 pt-4">
+          <span className="inline-block text-[11px] font-semibold uppercase tracking-wide text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md">
+            {roleLabel}
+          </span>
+        </div>
+
         {/* Nav */}
         <nav className="flex-1 px-3 py-6 space-y-1">
           {navItems.map(({ href, label, icon: Icon }) => {
@@ -109,8 +146,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
+        {/* Switch role */}
+        <div className="px-3">
+          <Link
+            href={switchHref}
+            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-medium text-slate-500 hover:text-white hover:bg-white/10 transition-all duration-150"
+          >
+            <ArrowLeftRight className="w-3.5 h-3.5 shrink-0" />
+            {switchLabel}
+          </Link>
+        </div>
+
         {/* School info */}
-        <div className="px-5 py-5 border-t border-white/10">
+        <div className="px-5 py-5 border-t border-white/10 mt-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
               <School className="w-4 h-4 text-emerald-400" />
