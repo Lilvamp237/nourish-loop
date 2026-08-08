@@ -37,46 +37,50 @@ PLANS_BY_DATE = {
         "predicted_attendance": 387,
         "meals": [
             {
-                "meal": "Rice & Dhal Curry",
+                "meal": "Rice, Dhal Curry, Mallum & Egg",
                 "servings": 395,
-                "cost_per_child_lkr": 58.20,
-                "total_cost_lkr": 22989,
+                "cost_per_child_lkr": 73.00,
+                "total_cost_lkr": 28835,
                 "nutrition": {
-                    "energy_kcal": 642, "protein_g": 18.4, "iron_mg": 4.1, "vitamin_a_ug": 162,
+                    "energy_kcal": 660, "protein_g": 20.5, "iron_mg": 4.8, "vitamin_a_ug": 240,
                     "targets": TARGETS,
                 },
                 "ingredients": [
                     {"name": "White Rice", "quantity_kg": 39.5, "cost_lkr": 9480},
-                    {"name": "Red Lentils (Dhal)", "quantity_kg": 11.8, "cost_lkr": 7670},
-                    {"name": "Coconut Milk", "quantity_litres": 7.9, "cost_lkr": 3160},
-                    {"name": "Onions", "quantity_kg": 3.9, "cost_lkr": 780},
-                    {"name": "Spices & Oil", "quantity_kg": 1.2, "cost_lkr": 1899},
+                    {"name": "Red Lentils (Dhal Curry)", "quantity_kg": 9.1, "cost_lkr": 5925},
+                    {"name": "Gotukola (Mallum Greens)", "quantity_kg": 11.9, "cost_lkr": 2370},
+                    {"name": "Scraped Coconut (for Mallum)", "quantity_kg": 3.95, "cost_lkr": 1185},
+                    {"name": "Eggs (Egg Curry)", "quantity_kg": 9.9, "cost_lkr": 7900},
+                    {"name": "Onions & Spices", "quantity_kg": 2.4, "cost_lkr": 1975},
                 ],
                 "explanation_base": (
-                    "Rice & Dhal Curry was selected as the primary recommendation because it meets "
-                    "all nutritional targets at the lowest cost per child (LKR 58.20). "
-                    "Protein and iron targets are both exceeded — dhal contributes 4.1mg iron per serving."
+                    "A full traditional plate — rice, dhal curry, mallum (shredded greens with coconut) "
+                    "and egg curry — meets every nutritional target at LKR 73.00 per child. The mallum "
+                    "greens push vitamin A well above target, and it's historically the most reliably "
+                    "eaten combination on the menu."
                 ),
             },
             {
-                "meal": "Vegetable Rice (Hodhi)",
+                "meal": "Rice, Chicken Curry, Beetroot Curry & Papadam",
                 "servings": 395,
-                "cost_per_child_lkr": 64.80,
-                "total_cost_lkr": 25596,
+                "cost_per_child_lkr": 89.97,
+                "total_cost_lkr": 35540,
                 "nutrition": {
-                    "energy_kcal": 611, "protein_g": 14.2, "iron_mg": 3.3, "vitamin_a_ug": 198,
+                    "energy_kcal": 680, "protein_g": 24.5, "iron_mg": 3.2, "vitamin_a_ug": 130,
                     "targets": TARGETS,
                 },
                 "ingredients": [
                     {"name": "White Rice", "quantity_kg": 39.5, "cost_lkr": 9480},
-                    {"name": "Mixed Vegetables", "quantity_kg": 19.7, "cost_lkr": 7880},
-                    {"name": "Coconut Milk", "quantity_litres": 7.9, "cost_lkr": 3160},
-                    {"name": "Soya Meal (TVP)", "quantity_kg": 7.9, "cost_lkr": 3952},
-                    {"name": "Spices & Oil", "quantity_kg": 1.5, "cost_lkr": 1124},
+                    {"name": "Chicken (Curry Cut)", "quantity_kg": 15.8, "cost_lkr": 17775},
+                    {"name": "Beetroot Curry", "quantity_kg": 7.9, "cost_lkr": 2765},
+                    {"name": "Papadam", "quantity_kg": 3.0, "cost_lkr": 1185},
+                    {"name": "Coconut Milk", "quantity_litres": 5.9, "cost_lkr": 2360},
+                    {"name": "Onions & Spices", "quantity_kg": 2.4, "cost_lkr": 1975},
                 ],
                 "explanation_base": (
-                    "Vegetable Rice was ranked second due to higher vitamin A from mixed vegetables. "
-                    "Cost is LKR 6.60 more per child than dhal curry."
+                    "Chicken curry with beetroot and papadam is the highest-protein option today, and a "
+                    "popular treat plate. At LKR 89.97 per child it exceeds a LKR 80 default budget — "
+                    "raise the budget or reserve it for a special day."
                 ),
             },
         ],
@@ -85,45 +89,47 @@ PLANS_BY_DATE = {
         "predicted_attendance": 391,
         "meals": [
             {
-                "meal": "Kadala (Chickpea) Curry & Rice",
+                "meal": "Rice, Kadala Curry, Potato Curry & Fish",
                 "servings": 399,
-                "cost_per_child_lkr": 53.55,
-                "total_cost_lkr": 21367,
+                "cost_per_child_lkr": 78.00,
+                "total_cost_lkr": 31122,
                 "nutrition": {
-                    "energy_kcal": 620, "protein_g": 17.0, "iron_mg": 3.8, "vitamin_a_ug": 140,
+                    "energy_kcal": 645, "protein_g": 22.0, "iron_mg": 4.0, "vitamin_a_ug": 155,
                     "targets": TARGETS,
                 },
                 "ingredients": [
                     {"name": "White Rice", "quantity_kg": 39.9, "cost_lkr": 9576},
-                    {"name": "Chickpeas (Kadala)", "quantity_kg": 15.96, "cost_lkr": 6065},
-                    {"name": "Coconut Milk", "quantity_litres": 7.98, "cost_lkr": 3192},
-                    {"name": "Onions", "quantity_kg": 3.19, "cost_lkr": 638},
-                    {"name": "Spices & Oil", "quantity_kg": 1.2, "cost_lkr": 1896},
+                    {"name": "Chickpeas (Kadala Curry)", "quantity_kg": 9.98, "cost_lkr": 5985},
+                    {"name": "Potato Curry", "quantity_kg": 15.96, "cost_lkr": 3192},
+                    {"name": "Fish Curry", "quantity_kg": 9.98, "cost_lkr": 7980},
+                    {"name": "Coconut Milk", "quantity_litres": 5.99, "cost_lkr": 2394},
+                    {"name": "Onions & Spices", "quantity_kg": 2.4, "cost_lkr": 1995},
                 ],
                 "explanation_base": (
-                    "Kadala Curry meets nutrition targets at the lowest cost per child (LKR 53.55) for Tuesday. "
-                    "Protein and iron exceed targets, though vitamin A sits slightly under target — "
-                    "pairing with a vegetable side is recommended."
+                    "Rice with chickpea curry, potato curry and fish is a well-rounded three-curry plate "
+                    "that clears every nutritional target at LKR 78.00 per child, with a strong 91% "
+                    "historical consumption rate."
                 ),
             },
             {
-                "meal": "Ambul Thiyal Fish Curry & Rice",
+                "meal": "String Hoppers, Dhal Curry & Pol Sambol",
                 "servings": 399,
-                "cost_per_child_lkr": 65.03,
-                "total_cost_lkr": 25947,
+                "cost_per_child_lkr": 54.00,
+                "total_cost_lkr": 21546,
                 "nutrition": {
-                    "energy_kcal": 610, "protein_g": 19.5, "iron_mg": 3.0, "vitamin_a_ug": 120,
+                    "energy_kcal": 560, "protein_g": 14.5, "iron_mg": 3.6, "vitamin_a_ug": 120,
                     "targets": TARGETS,
                 },
                 "ingredients": [
-                    {"name": "White Rice", "quantity_kg": 39.9, "cost_lkr": 9576},
-                    {"name": "Fish (Ambul Thiyal)", "quantity_kg": 13.97, "cost_lkr": 12573},
-                    {"name": "Onions", "quantity_kg": 3.19, "cost_lkr": 638},
-                    {"name": "Spices, Tamarind & Oil", "quantity_kg": 2.0, "cost_lkr": 3160},
+                    {"name": "String Hoppers (Rice Flour)", "quantity_kg": 35.9, "cost_lkr": 8778},
+                    {"name": "Red Lentils (Dhal Curry)", "quantity_kg": 11.97, "cost_lkr": 7581},
+                    {"name": "Pol Sambol (Coconut, Chili, Onion, Lime)", "quantity_kg": 7.98, "cost_lkr": 3990},
+                    {"name": "Spices & Oil", "quantity_kg": 1.6, "cost_lkr": 1197},
                 ],
                 "explanation_base": (
-                    "Fish curry offers the highest protein per child but costs LKR 11.48 more than the "
-                    "chickpea option, and vitamin A coverage is lower than the vegetable-based alternative."
+                    "String hoppers with dhal curry and pol sambol is the cheapest option this week at "
+                    "LKR 54.00 per child. Energy sits slightly under target — pairing with a banana or "
+                    "extra dhal portion is recommended."
                 ),
             },
         ],
@@ -132,46 +138,47 @@ PLANS_BY_DATE = {
         "predicted_attendance": 385,
         "meals": [
             {
-                "meal": "Soya Meal (TVP) Curry & Rice",
+                "meal": "Rice, Soya Curry, Mallum & Egg",
                 "servings": 393,
-                "cost_per_child_lkr": 55.67,
-                "total_cost_lkr": 21877,
+                "cost_per_child_lkr": 72.00,
+                "total_cost_lkr": 28296,
                 "nutrition": {
-                    "energy_kcal": 595, "protein_g": 20.5, "iron_mg": 4.5, "vitamin_a_ug": 110,
+                    "energy_kcal": 650, "protein_g": 23.5, "iron_mg": 5.0, "vitamin_a_ug": 220,
                     "targets": TARGETS,
                 },
                 "ingredients": [
                     {"name": "White Rice", "quantity_kg": 39.3, "cost_lkr": 9432},
-                    {"name": "Soya Meal (TVP)", "quantity_kg": 13.76, "cost_lkr": 6192},
-                    {"name": "Coconut Milk", "quantity_litres": 7.86, "cost_lkr": 3144},
-                    {"name": "Onions", "quantity_kg": 3.14, "cost_lkr": 628},
-                    {"name": "Spices & Oil", "quantity_kg": 1.57, "cost_lkr": 2481},
+                    {"name": "Soya Meal (TVP Curry)", "quantity_kg": 6.29, "cost_lkr": 6288},
+                    {"name": "Gotukola (Mallum Greens)", "quantity_kg": 11.79, "cost_lkr": 2358},
+                    {"name": "Scraped Coconut (for Mallum)", "quantity_kg": 3.93, "cost_lkr": 1179},
+                    {"name": "Eggs (Egg Curry)", "quantity_kg": 7.86, "cost_lkr": 7074},
+                    {"name": "Onions & Spices", "quantity_kg": 2.36, "cost_lkr": 1965},
                 ],
                 "explanation_base": (
-                    "Soya meal curry was ranked first for its exceptional protein and iron content at "
-                    "LKR 55.67 per child — the lowest-cost option that still meets energy and protein "
-                    "targets. Vitamin A falls short of target; consider adding a vegetable side."
+                    "Soya curry, mallum and egg together give the strongest protein and iron coverage "
+                    "of the week at LKR 72.00 per child. Soya's texture is sometimes less popular with "
+                    "younger children — worth monitoring consumption closely."
                 ),
             },
             {
-                "meal": "Egg Curry & Rice",
+                "meal": "Pittu, Coconut Milk & Dhal Curry",
                 "servings": 393,
-                "cost_per_child_lkr": 81.92,
-                "total_cost_lkr": 32193,
+                "cost_per_child_lkr": 54.00,
+                "total_cost_lkr": 21222,
                 "nutrition": {
-                    "energy_kcal": 615, "protein_g": 19.8, "iron_mg": 3.6, "vitamin_a_ug": 175,
+                    "energy_kcal": 590, "protein_g": 13.8, "iron_mg": 3.4, "vitamin_a_ug": 95,
                     "targets": TARGETS,
                 },
                 "ingredients": [
-                    {"name": "White Rice", "quantity_kg": 39.3, "cost_lkr": 9432},
-                    {"name": "Eggs", "quantity_kg": 19.65, "cost_lkr": 15720},
-                    {"name": "Coconut Milk", "quantity_litres": 9.83, "cost_lkr": 3932},
-                    {"name": "Onions", "quantity_kg": 3.14, "cost_lkr": 628},
-                    {"name": "Spices & Oil", "quantity_kg": 1.57, "cost_lkr": 2481},
+                    {"name": "Pittu (Rice Flour & Coconut)", "quantity_kg": 35.4, "cost_lkr": 8646},
+                    {"name": "Coconut Milk (Side)", "quantity_litres": 9.83, "cost_lkr": 3930},
+                    {"name": "Red Lentils (Dhal Curry)", "quantity_kg": 11.79, "cost_lkr": 7467},
+                    {"name": "Spices & Oil", "quantity_kg": 1.57, "cost_lkr": 1179},
                 ],
                 "explanation_base": (
-                    "Egg curry fully covers all four nutrition targets, but costs LKR 26.25 more per "
-                    "child than the soya meal option — pushing it just over a LKR 80 budget."
+                    "Pittu with coconut milk and dhal curry is a traditional low-cost favourite at "
+                    "LKR 54.00 per child, but has no vegetable component — vitamin A coverage is the "
+                    "lowest of the week. Consider adding a vegetable side on this day."
                 ),
             },
         ],
@@ -180,46 +187,47 @@ PLANS_BY_DATE = {
         "predicted_attendance": 379,
         "meals": [
             {
-                "meal": "Green Gram (Mun Ata) Curry & Rice",
+                "meal": "Rice, Green Gram Curry, Bean Curry & Chicken",
                 "servings": 387,
-                "cost_per_child_lkr": 53.04,
-                "total_cost_lkr": 20528,
+                "cost_per_child_lkr": 99.00,
+                "total_cost_lkr": 38313,
                 "nutrition": {
-                    "energy_kcal": 590, "protein_g": 16.2, "iron_mg": 3.4, "vitamin_a_ug": 130,
+                    "energy_kcal": 700, "protein_g": 26.0, "iron_mg": 4.2, "vitamin_a_ug": 145,
                     "targets": TARGETS,
                 },
                 "ingredients": [
                     {"name": "White Rice", "quantity_kg": 38.7, "cost_lkr": 9288},
-                    {"name": "Green Gram (Mun Ata)", "quantity_kg": 13.55, "cost_lkr": 5691},
-                    {"name": "Coconut Milk", "quantity_litres": 7.74, "cost_lkr": 3096},
-                    {"name": "Onions", "quantity_kg": 3.1, "cost_lkr": 620},
-                    {"name": "Spices & Oil", "quantity_kg": 1.16, "cost_lkr": 1833},
+                    {"name": "Green Gram (Mun Ata) Curry", "quantity_kg": 5.42, "cost_lkr": 5418},
+                    {"name": "Long Bean Curry", "quantity_kg": 3.87, "cost_lkr": 3870},
+                    {"name": "Chicken (Curry Cut)", "quantity_kg": 15.48, "cost_lkr": 15480},
+                    {"name": "Coconut Milk", "quantity_litres": 5.81, "cost_lkr": 2322},
+                    {"name": "Onions & Spices", "quantity_kg": 2.32, "cost_lkr": 1935},
                 ],
                 "explanation_base": (
-                    "Green gram curry meets protein and iron targets at the lowest cost per child "
-                    "(LKR 53.04) for Thursday. Energy and vitamin A sit slightly under target."
+                    "A three-curry plate with green gram, beans and chicken gives the strongest overall "
+                    "protein coverage this week, but at LKR 99.00 per child it exceeds a LKR 80 default "
+                    "budget — this is the meal most likely to need a budget increase to serve."
                 ),
             },
             {
-                "meal": "Dhal & Jackfruit Curry with Rice",
+                "meal": "Bread, Dhal Curry & Coconut Sambol",
                 "servings": 387,
-                "cost_per_child_lkr": 59.59,
-                "total_cost_lkr": 23063,
+                "cost_per_child_lkr": 45.00,
+                "total_cost_lkr": 17415,
                 "nutrition": {
-                    "energy_kcal": 625, "protein_g": 16.8, "iron_mg": 3.9, "vitamin_a_ug": 145,
+                    "energy_kcal": 540, "protein_g": 13.0, "iron_mg": 3.1, "vitamin_a_ug": 85,
                     "targets": TARGETS,
                 },
                 "ingredients": [
-                    {"name": "White Rice", "quantity_kg": 38.7, "cost_lkr": 9288},
-                    {"name": "Red Lentils (Dhal)", "quantity_kg": 9.68, "cost_lkr": 6292},
-                    {"name": "Young Jackfruit (Polos)", "quantity_kg": 11.61, "cost_lkr": 2090},
-                    {"name": "Coconut Milk", "quantity_litres": 7.74, "cost_lkr": 3096},
-                    {"name": "Onions", "quantity_kg": 2.32, "cost_lkr": 464},
-                    {"name": "Spices & Oil", "quantity_kg": 1.16, "cost_lkr": 1833},
+                    {"name": "Bread (Sliced Loaves)", "quantity_kg": 23.2, "cost_lkr": 5805},
+                    {"name": "Red Lentils (Dhal Curry)", "quantity_kg": 11.61, "cost_lkr": 7353},
+                    {"name": "Coconut Sambol", "quantity_kg": 3.1, "cost_lkr": 3096},
+                    {"name": "Spices & Oil", "quantity_kg": 1.16, "cost_lkr": 1161},
                 ],
                 "explanation_base": (
-                    "Dhal & jackfruit curry adds variety and slightly better overall nutrition coverage, "
-                    "but costs LKR 6.55 more per child than the green gram option."
+                    "Bread with dhal curry and coconut sambol is the cheapest option this week at "
+                    "LKR 45.00 per child and quick to prepare, but energy and vitamin A both fall under "
+                    "target — best paired with a piece of fruit."
                 ),
             },
         ],
@@ -228,49 +236,52 @@ PLANS_BY_DATE = {
         "predicted_attendance": 361,
         "meals": [
             {
-                "meal": "Rice & Dhal Curry",
+                "meal": "Rice, Dhal Curry, Mallum & Egg",
                 "servings": 369,
-                "cost_per_child_lkr": 58.25,
-                "total_cost_lkr": 21496,
+                "cost_per_child_lkr": 73.00,
+                "total_cost_lkr": 26937,
                 "nutrition": {
-                    "energy_kcal": 642, "protein_g": 18.4, "iron_mg": 4.1, "vitamin_a_ug": 162,
+                    "energy_kcal": 660, "protein_g": 20.5, "iron_mg": 4.8, "vitamin_a_ug": 240,
                     "targets": TARGETS,
                 },
                 "ingredients": [
                     {"name": "White Rice", "quantity_kg": 36.9, "cost_lkr": 8856},
-                    {"name": "Red Lentils (Dhal)", "quantity_kg": 11.07, "cost_lkr": 7196},
-                    {"name": "Coconut Milk", "quantity_litres": 7.38, "cost_lkr": 2952},
-                    {"name": "Onions", "quantity_kg": 3.69, "cost_lkr": 738},
-                    {"name": "Spices & Oil", "quantity_kg": 1.11, "cost_lkr": 1754},
+                    {"name": "Red Lentils (Dhal Curry)", "quantity_kg": 8.49, "cost_lkr": 5535},
+                    {"name": "Gotukola (Mallum Greens)", "quantity_kg": 11.07, "cost_lkr": 2214},
+                    {"name": "Scraped Coconut (for Mallum)", "quantity_kg": 3.69, "cost_lkr": 1107},
+                    {"name": "Eggs (Egg Curry)", "quantity_kg": 9.23, "cost_lkr": 7380},
+                    {"name": "Onions & Spices", "quantity_kg": 2.21, "cost_lkr": 1845},
                 ],
                 "explanation_base": (
-                    "Rice & dhal curry remains a reliable choice — full nutrition coverage at "
-                    "LKR 58.25 per child, unchanged from its performance on Monday."
+                    "The same reliable rice, dhal, mallum and egg combination that performed well on "
+                    "Monday — full nutritional coverage at LKR 73.00 per child."
                 ),
             },
             {
-                "meal": "Vegetable Fried Rice with Egg",
+                "meal": "String Hoppers, Chicken Curry & Pol Sambol",
                 "servings": 369,
-                "cost_per_child_lkr": 68.88,
-                "total_cost_lkr": 25416,
+                "cost_per_child_lkr": 78.00,
+                "total_cost_lkr": 28782,
                 "nutrition": {
-                    "energy_kcal": 630, "protein_g": 16.5, "iron_mg": 3.2, "vitamin_a_ug": 155,
+                    "energy_kcal": 620, "protein_g": 21.0, "iron_mg": 3.0, "vitamin_a_ug": 110,
                     "targets": TARGETS,
                 },
                 "ingredients": [
-                    {"name": "White Rice", "quantity_kg": 40.59, "cost_lkr": 9742},
-                    {"name": "Mixed Vegetables", "quantity_kg": 11.07, "cost_lkr": 4428},
-                    {"name": "Eggs", "quantity_kg": 9.22, "cost_lkr": 8302},
-                    {"name": "Oil, Soy Sauce & Spices", "quantity_kg": 1.84, "cost_lkr": 2944},
+                    {"name": "String Hoppers (Rice Flour)", "quantity_kg": 33.2, "cost_lkr": 8118},
+                    {"name": "Chicken Curry", "quantity_kg": 14.76, "cost_lkr": 15498},
+                    {"name": "Pol Sambol (Coconut, Chili, Onion, Lime)", "quantity_kg": 3.69, "cost_lkr": 3690},
+                    {"name": "Spices & Oil", "quantity_kg": 1.48, "cost_lkr": 1476},
                 ],
                 "explanation_base": (
-                    "Vegetable fried rice with egg is a popular Friday treat meal that fully meets "
-                    "nutrition targets, but costs LKR 10.63 more per child than rice & dhal."
+                    "String hoppers with chicken curry and pol sambol is a popular Friday treat plate "
+                    "that fully meets nutrition targets, at a LKR 5.00 premium per child over the rice "
+                    "and dhal option."
                 ),
             },
         ],
     },
 }
+
 
 
 def _live_meal(base_meal: dict) -> dict:

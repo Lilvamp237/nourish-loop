@@ -22,9 +22,9 @@ WASTE_HISTORY = [
 ]
 
 PAST_PLANS = [
-    {"id": "mock-plan-2026-08-01", "date": "2026-08-01", "meal": "Rice & Dhal Curry", "prepared": 414},
-    {"id": "mock-plan-2026-07-31", "date": "2026-07-31", "meal": "Vegetable Rice (Hodhi)", "prepared": 410},
-    {"id": "mock-plan-2026-07-30", "date": "2026-07-30", "meal": "Kadala (Chickpea) Curry & Rice", "prepared": 399},
+    {"id": "mock-plan-2026-08-01", "date": "2026-08-01", "meal": "Rice, Dhal Curry, Mallum & Egg", "prepared": 395},
+    {"id": "mock-plan-2026-07-31", "date": "2026-07-31", "meal": "Rice, Kadala Curry, Potato Curry & Fish", "prepared": 399},
+    {"id": "mock-plan-2026-07-30", "date": "2026-07-30", "meal": "String Hoppers, Dhal Curry & Pol Sambol", "prepared": 399},
 ]
 
 

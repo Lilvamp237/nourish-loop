@@ -73,10 +73,10 @@ export function CostTrendChart({ data }: { data: AnalyticsData["waste_over_time"
 
 export function PreparedVsConsumedChart({ data }: { data: AnalyticsData["prepared_vs_consumed"] }) {
   const MEAL_COLORS: Record<string, string> = {
-    "Rice & Dhal": "#10b981",
-    "Vegetable Rice": "#6366f1",
-    "String Hoppers": "#f59e0b",
-    "Pol Roti": "#0f2137",
+    "Rice, Dhal & Mallum": "#10b981",
+    "Kadala, Potato & Fish": "#6366f1",
+    "String Hoppers & Pol Sambol": "#f59e0b",
+    "Bread & Dhal": "#0f2137",
   };
 
   return (

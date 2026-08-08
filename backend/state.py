@@ -16,15 +16,15 @@ from datetime import datetime, timezone
 # nudge these via an exponential moving average, same formula the real
 # feedback_updater.py will use later (alpha = 0.3).
 BASELINE_CONSUMPTION_RATES = {
-    "Rice & Dhal Curry": 0.94,
-    "Vegetable Rice (Hodhi)": 0.87,
-    "Kadala (Chickpea) Curry & Rice": 0.92,
-    "Ambul Thiyal Fish Curry & Rice": 0.85,
-    "Soya Meal (TVP) Curry & Rice": 0.90,
-    "Egg Curry & Rice": 0.95,
-    "Green Gram (Mun Ata) Curry & Rice": 0.91,
-    "Dhal & Jackfruit Curry with Rice": 0.84,
-    "Vegetable Fried Rice with Egg": 0.88,
+    "Rice, Dhal Curry, Mallum & Egg": 0.93,
+    "Rice, Chicken Curry, Beetroot Curry & Papadam": 0.90,
+    "Rice, Kadala Curry, Potato Curry & Fish": 0.91,
+    "String Hoppers, Dhal Curry & Pol Sambol": 0.88,
+    "Rice, Soya Curry, Mallum & Egg": 0.89,
+    "Pittu, Coconut Milk & Dhal Curry": 0.86,
+    "Rice, Green Gram Curry, Bean Curry & Chicken": 0.90,
+    "Bread, Dhal Curry & Coconut Sambol": 0.83,
+    "String Hoppers, Chicken Curry & Pol Sambol": 0.87,
 }
 
 EMA_ALPHA = 0.3
