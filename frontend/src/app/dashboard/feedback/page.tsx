@@ -1,11 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/lib/api";
 import type { FeedbackTrends } from "@/lib/types";
 import WasteTrendChart from "@/components/charts/WasteTrendChart";
-import { MessageSquarePlus, Loader2, CheckCircle2, RefreshCw, PiggyBank, TrendingDown } from "lucide-react";
+import {
+  MessageSquarePlus,
+  Loader2,
+  CheckCircle2,
+  RefreshCw,
+  PiggyBank,
+  TrendingDown,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 const WASTE_REASONS = [
   "Over-preparation",
@@ -23,8 +33,10 @@ export default function FeedbackPage() {
   const [reason, setReason] = useState(WASTE_REASONS[0]);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [affectsMessage, setAffectsMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [retraining, setRetraining] = useState(false);
+  const [retrainResult, setRetrainResult] = useState<string | null>(null);
 
   useEffect(() => {
     api.feedbackTrends().then(setTrends).catch(() => null);
@@ -32,21 +44,25 @@ export default function FeedbackPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!planId || !consumed || !leftover) {
+    const selectedPlan = trends?.past_plans.find((p) => p.id === planId);
+    if (!selectedPlan || !consumed || !leftover) {
       setError("Please fill in all required fields.");
       return;
     }
     setSubmitting(true);
     setError(null);
+    setAffectsMessage(null);
     try {
-      await api.submitFeedback({
+      const resp = await api.submitFeedback({
         plan_id: planId,
+        meal: selectedPlan.meal,
+        prepared: selectedPlan.prepared,
         actual_consumed: parseInt(consumed),
         leftover_weight_kg: parseFloat(leftover),
         waste_reason: reason,
         notes,
       });
-      setSuccess(true);
+      setAffectsMessage((resp as { affects?: string }).affects ?? "Feedback recorded.");
       setConsumed("");
       setLeftover("");
       setNotes("");
@@ -56,6 +72,21 @@ export default function FeedbackPage() {
       setError("Could not reach the backend. Make sure FastAPI is running on port 8000.");
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function handleRetrain() {
+    setRetraining(true);
+    setRetrainResult(null);
+    try {
+      const resp = await api.retrainModel();
+      setRetrainResult(`Model retrained to ${resp.version} — MAE improved ${resp.improvement_pct}% (now ±${resp.mae}).`);
+      const updated = await api.feedbackTrends();
+      setTrends(updated);
+    } catch {
+      setError("Could not reach the backend.");
+    } finally {
+      setRetraining(false);
     }
   }
 
@@ -78,10 +109,18 @@ export default function FeedbackPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {success && (
-              <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg px-4 py-3 mb-4 text-sm">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                Feedback recorded. Consumption rates updated.
+            {affectsMessage && (
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg px-4 py-3 mb-4 text-sm flex gap-2.5">
+                <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+                <div>
+                  <p className="leading-relaxed">{affectsMessage}</p>
+                  <Link
+                    href="/dashboard/recommendations"
+                    className="inline-flex items-center gap-1 text-emerald-700 font-semibold text-xs mt-1.5 hover:underline"
+                  >
+                    See it reflected in Meal Recommendations <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
               </div>
             )}
 
@@ -117,7 +156,7 @@ export default function FeedbackPage() {
                     type="number"
                     value={consumed}
                     onChange={(e) => setConsumed(e.target.value)}
-                    placeholder="e.g. 381"
+                    placeholder="e.g. 260"
                     min={0}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                   />
@@ -131,7 +170,7 @@ export default function FeedbackPage() {
                     step="0.1"
                     value={leftover}
                     onChange={(e) => setLeftover(e.target.value)}
-                    placeholder="e.g. 3.4"
+                    placeholder="e.g. 25"
                     min={0}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                   />
@@ -205,17 +244,32 @@ export default function FeedbackPage() {
 
               {/* Retrain status */}
               <Card className={`border shadow-sm ${trends.retrain_available ? "border-emerald-200 bg-emerald-50" : "border-gray-100"}`}>
-                <CardContent className="p-4 flex items-center gap-3">
-                  <RefreshCw className={`w-5 h-5 shrink-0 ${trends.retrain_available ? "text-emerald-600" : "text-gray-400"}`} />
-                  <div>
-                    <p className="text-sm font-semibold text-gray-800">
-                      {trends.retrain_available ? "Model update ready" : "Model up to date"}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {trends.records_since_last_retrain} new records ·{" "}
-                      {trends.retrain_available ? "Retrain available" : `${5 - trends.records_since_last_retrain} more needed`}
-                    </p>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <RefreshCw className={`w-5 h-5 shrink-0 ${trends.retrain_available ? "text-emerald-600" : "text-gray-400"}`} />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-800">
+                        {trends.retrain_available ? "Model update ready" : "Model up to date"}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {trends.records_since_last_retrain} new records ·{" "}
+                        {trends.retrain_available ? "Retrain available" : `${5 - trends.records_since_last_retrain} more needed`}
+                      </p>
+                    </div>
+                    {trends.retrain_available && (
+                      <button
+                        onClick={handleRetrain}
+                        disabled={retraining}
+                        className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-60 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shrink-0"
+                      >
+                        {retraining ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+                        Retrain
+                      </button>
+                    )}
                   </div>
+                  {retrainResult && (
+                    <p className="text-xs text-emerald-700 mt-2 pt-2 border-t border-emerald-100">{retrainResult}</p>
+                  )}
                 </CardContent>
               </Card>
 

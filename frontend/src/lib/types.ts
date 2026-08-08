@@ -8,14 +8,32 @@ export interface KPIs {
   estimated_savings_lkr: number;
 }
 
+export interface HeroStat {
+  value: string;
+  label: string;
+  sub: string;
+}
+
 export interface OverviewData {
   school: string;
   date: string;
   kpis: KPIs;
+  hero_stat: HeroStat;
   insight: string;
   model_mae: number;
+  model_version: string;
   attendance_trend: { week: string; predicted: number; actual: number | null }[];
   food_group_coverage: { group: string; pct: number }[];
+}
+
+export interface TimelapseFrame {
+  week: string;
+  attendance_pct: number;
+  waste_pct: number;
+  cost_per_child_lkr: number;
+  adequacy_score: number;
+  cumulative_savings_lkr: number;
+  headline: string;
 }
 
 export interface ShapFactor {
@@ -82,6 +100,20 @@ export interface PlanData {
   school: string;
   predicted_attendance: number;
   recommended_meals: RecommendedMeal[];
+  status?: string;
+}
+
+export interface PlanActionResponse {
+  plan_id: string;
+  status: string;
+  approved_by?: string;
+  rejected_meal?: string;
+  meal?: string;
+  servings?: number;
+  date?: string;
+  school?: string;
+  predicted_attendance?: number;
+  recommended_meals?: RecommendedMeal[];
 }
 
 export interface WasteTrend {

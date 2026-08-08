@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import overview, forecast, plans, feedback, analytics
+from routers import overview, forecast, plans, feedback, analytics, simulation
 
 app = FastAPI(title="NourishLoop API", version="0.1.0")
 
@@ -21,6 +21,7 @@ app.include_router(forecast.router, prefix="/api")
 app.include_router(plans.router, prefix="/api")
 app.include_router(feedback.router, prefix="/api")
 app.include_router(analytics.router, prefix="/api")
+app.include_router(simulation.router, prefix="/api")
 
 
 @app.get("/api/health")

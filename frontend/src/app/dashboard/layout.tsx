@@ -124,7 +124,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Content */}
-      <main className="flex-1 overflow-auto pt-14 md:pt-0">{children}</main>
+      <main className="flex-1 overflow-auto pt-14 md:pt-0 flex flex-col">
+        <div className="flex-1">{children}</div>
+        <footer className="px-8 py-4 border-t border-gray-100 text-[11px] text-gray-400 leading-relaxed">
+          Nutritional data: Sri Lankan Food Composition Table, Medical Research Institute (2011) ·
+          Retail prices: Department of Census &amp; Statistics weekly bulletin ·
+          Meal templates aligned with Ministry of Education school meal guidelines.
+        </footer>
+      </main>
     </div>
   );
 }

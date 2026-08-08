@@ -1,4 +1,12 @@
-import type { AnalyticsData, FeedbackTrends, ForecastData, OverviewData, PlanData } from "./types";
+import type {
+  AnalyticsData,
+  FeedbackTrends,
+  ForecastData,
+  OverviewData,
+  PlanActionResponse,
+  PlanData,
+  TimelapseFrame,
+} from "./types";
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -26,10 +34,26 @@ export const api = {
   feedbackTrends: () => get<FeedbackTrends>("/api/feedback/trends"),
   submitFeedback: (body: {
     plan_id: string;
+    meal: string;
+    prepared: number;
     actual_consumed: number;
     leftover_weight_kg: number;
     waste_reason: string;
     notes: string;
   }) => post("/api/feedback", body),
+  retrainModel: () => post<{ status: string; version: string; mae: number; improvement_pct: number }>(
+    "/api/feedback/retrain",
+    {}
+  ),
   analytics: () => get<AnalyticsData>("/api/analytics"),
+  timelapse: () => get<{ frames: TimelapseFrame[] }>("/api/simulation/timelapse"),
+  approvePlan: (planId: string, approvedBy = "Meal Planner") =>
+    post<PlanActionResponse>(`/api/plans/${planId}/approve`, { approved_by: approvedBy }),
+  rejectPlan: (planId: string, rejectedMeal: string, budget: number) =>
+    post<PlanActionResponse>(`/api/plans/${planId}/reject`, {
+      rejected_meal: rejectedMeal,
+      budget_per_child_lkr: budget,
+    }),
+  modifyPlan: (planId: string, meal: string, servings: number) =>
+    post<PlanActionResponse>(`/api/plans/${planId}/modify`, { meal, servings }),
 };

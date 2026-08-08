@@ -1,5 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+
+from state import STATE, BASELINE_CONSUMPTION_RATES, waste_risk_label
 
 router = APIRouter()
 
@@ -8,6 +10,20 @@ class PlanRequest(BaseModel):
     school_id: int = 1
     date: str = "2026-08-03"
     budget_per_child_lkr: float = 80.0
+
+
+class RejectRequest(BaseModel):
+    rejected_meal: str
+    budget_per_child_lkr: float = 80.0
+
+
+class ModifyRequest(BaseModel):
+    meal: str
+    servings: int
+
+
+class ApproveRequest(BaseModel):
+    approved_by: str = "Meal Planner"
 
 
 SCHOOL = "Mahinda Rajapaksa National School"
@@ -25,8 +41,6 @@ PLANS_BY_DATE = {
                 "servings": 395,
                 "cost_per_child_lkr": 58.20,
                 "total_cost_lkr": 22989,
-                "waste_risk": "Low",
-                "consumption_rate": 0.94,
                 "nutrition": {
                     "energy_kcal": 642, "protein_g": 18.4, "iron_mg": 4.1, "vitamin_a_ug": 162,
                     "targets": TARGETS,
@@ -38,10 +52,9 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.9, "cost_lkr": 780},
                     {"name": "Spices & Oil", "quantity_kg": 1.2, "cost_lkr": 1899},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Rice & Dhal Curry was selected as the primary recommendation because it meets "
                     "all nutritional targets at the lowest cost per child (LKR 58.20). "
-                    "Its 94% historical consumption rate keeps predicted waste below 6kg. "
                     "Protein and iron targets are both exceeded — dhal contributes 4.1mg iron per serving."
                 ),
             },
@@ -50,8 +63,6 @@ PLANS_BY_DATE = {
                 "servings": 395,
                 "cost_per_child_lkr": 64.80,
                 "total_cost_lkr": 25596,
-                "waste_risk": "Medium",
-                "consumption_rate": 0.87,
                 "nutrition": {
                     "energy_kcal": 611, "protein_g": 14.2, "iron_mg": 3.3, "vitamin_a_ug": 198,
                     "targets": TARGETS,
@@ -63,10 +74,9 @@ PLANS_BY_DATE = {
                     {"name": "Soya Meal (TVP)", "quantity_kg": 7.9, "cost_lkr": 3952},
                     {"name": "Spices & Oil", "quantity_kg": 1.5, "cost_lkr": 1124},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Vegetable Rice was ranked second due to higher vitamin A from mixed vegetables. "
-                    "Cost is LKR 6.60 more per child than dhal curry. "
-                    "An 87% consumption rate introduces moderate waste risk (~52 portions)."
+                    "Cost is LKR 6.60 more per child than dhal curry."
                 ),
             },
         ],
@@ -79,8 +89,6 @@ PLANS_BY_DATE = {
                 "servings": 399,
                 "cost_per_child_lkr": 53.55,
                 "total_cost_lkr": 21367,
-                "waste_risk": "Low",
-                "consumption_rate": 0.92,
                 "nutrition": {
                     "energy_kcal": 620, "protein_g": 17.0, "iron_mg": 3.8, "vitamin_a_ug": 140,
                     "targets": TARGETS,
@@ -92,9 +100,8 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.19, "cost_lkr": 638},
                     {"name": "Spices & Oil", "quantity_kg": 1.2, "cost_lkr": 1896},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Kadala Curry meets nutrition targets at the lowest cost per child (LKR 53.55) for Tuesday. "
-                    "A 92% historical consumption rate keeps predicted waste low. "
                     "Protein and iron exceed targets, though vitamin A sits slightly under target — "
                     "pairing with a vegetable side is recommended."
                 ),
@@ -104,8 +111,6 @@ PLANS_BY_DATE = {
                 "servings": 399,
                 "cost_per_child_lkr": 65.03,
                 "total_cost_lkr": 25947,
-                "waste_risk": "Medium",
-                "consumption_rate": 0.85,
                 "nutrition": {
                     "energy_kcal": 610, "protein_g": 19.5, "iron_mg": 3.0, "vitamin_a_ug": 120,
                     "targets": TARGETS,
@@ -116,10 +121,9 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.19, "cost_lkr": 638},
                     {"name": "Spices, Tamarind & Oil", "quantity_kg": 2.0, "cost_lkr": 3160},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Fish curry offers the highest protein per child but costs LKR 11.48 more than the "
-                    "chickpea option. An 85% historical consumption rate introduces moderate waste risk, "
-                    "and vitamin A coverage is lower than the vegetable-based alternative."
+                    "chickpea option, and vitamin A coverage is lower than the vegetable-based alternative."
                 ),
             },
         ],
@@ -132,8 +136,6 @@ PLANS_BY_DATE = {
                 "servings": 393,
                 "cost_per_child_lkr": 55.67,
                 "total_cost_lkr": 21877,
-                "waste_risk": "Low",
-                "consumption_rate": 0.90,
                 "nutrition": {
                     "energy_kcal": 595, "protein_g": 20.5, "iron_mg": 4.5, "vitamin_a_ug": 110,
                     "targets": TARGETS,
@@ -145,7 +147,7 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.14, "cost_lkr": 628},
                     {"name": "Spices & Oil", "quantity_kg": 1.57, "cost_lkr": 2481},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Soya meal curry was ranked first for its exceptional protein and iron content at "
                     "LKR 55.67 per child — the lowest-cost option that still meets energy and protein "
                     "targets. Vitamin A falls short of target; consider adding a vegetable side."
@@ -156,8 +158,6 @@ PLANS_BY_DATE = {
                 "servings": 393,
                 "cost_per_child_lkr": 81.92,
                 "total_cost_lkr": 32193,
-                "waste_risk": "Low",
-                "consumption_rate": 0.95,
                 "nutrition": {
                     "energy_kcal": 615, "protein_g": 19.8, "iron_mg": 3.6, "vitamin_a_ug": 175,
                     "targets": TARGETS,
@@ -169,10 +169,9 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.14, "cost_lkr": 628},
                     {"name": "Spices & Oil", "quantity_kg": 1.57, "cost_lkr": 2481},
                 ],
-                "explanation": (
-                    "Egg curry has the highest historical consumption rate (95%) and fully covers all "
-                    "four nutrition targets, but costs LKR 26.25 more per child than the soya meal "
-                    "option — pushing it just over a LKR 80 budget."
+                "explanation_base": (
+                    "Egg curry fully covers all four nutrition targets, but costs LKR 26.25 more per "
+                    "child than the soya meal option — pushing it just over a LKR 80 budget."
                 ),
             },
         ],
@@ -185,8 +184,6 @@ PLANS_BY_DATE = {
                 "servings": 387,
                 "cost_per_child_lkr": 53.04,
                 "total_cost_lkr": 20528,
-                "waste_risk": "Low",
-                "consumption_rate": 0.91,
                 "nutrition": {
                     "energy_kcal": 590, "protein_g": 16.2, "iron_mg": 3.4, "vitamin_a_ug": 130,
                     "targets": TARGETS,
@@ -198,10 +195,9 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.1, "cost_lkr": 620},
                     {"name": "Spices & Oil", "quantity_kg": 1.16, "cost_lkr": 1833},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Green gram curry meets protein and iron targets at the lowest cost per child "
-                    "(LKR 53.04) for Thursday, with a strong 91% historical consumption rate. "
-                    "Energy and vitamin A sit slightly under target."
+                    "(LKR 53.04) for Thursday. Energy and vitamin A sit slightly under target."
                 ),
             },
             {
@@ -209,8 +205,6 @@ PLANS_BY_DATE = {
                 "servings": 387,
                 "cost_per_child_lkr": 59.59,
                 "total_cost_lkr": 23063,
-                "waste_risk": "Medium",
-                "consumption_rate": 0.84,
                 "nutrition": {
                     "energy_kcal": 625, "protein_g": 16.8, "iron_mg": 3.9, "vitamin_a_ug": 145,
                     "targets": TARGETS,
@@ -223,10 +217,9 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 2.32, "cost_lkr": 464},
                     {"name": "Spices & Oil", "quantity_kg": 1.16, "cost_lkr": 1833},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Dhal & jackfruit curry adds variety and slightly better overall nutrition coverage, "
-                    "but costs LKR 6.55 more per child and has a lower 84% historical consumption rate "
-                    "than the green gram option."
+                    "but costs LKR 6.55 more per child than the green gram option."
                 ),
             },
         ],
@@ -239,8 +232,6 @@ PLANS_BY_DATE = {
                 "servings": 369,
                 "cost_per_child_lkr": 58.25,
                 "total_cost_lkr": 21496,
-                "waste_risk": "Low",
-                "consumption_rate": 0.94,
                 "nutrition": {
                     "energy_kcal": 642, "protein_g": 18.4, "iron_mg": 4.1, "vitamin_a_ug": 162,
                     "targets": TARGETS,
@@ -252,10 +243,9 @@ PLANS_BY_DATE = {
                     {"name": "Onions", "quantity_kg": 3.69, "cost_lkr": 738},
                     {"name": "Spices & Oil", "quantity_kg": 1.11, "cost_lkr": 1754},
                 ],
-                "explanation": (
-                    "Rice & dhal curry remains the most reliable choice — a proven 94% consumption rate "
-                    "and full nutrition coverage at LKR 58.25 per child, unchanged from its performance "
-                    "on Monday."
+                "explanation_base": (
+                    "Rice & dhal curry remains a reliable choice — full nutrition coverage at "
+                    "LKR 58.25 per child, unchanged from its performance on Monday."
                 ),
             },
             {
@@ -263,8 +253,6 @@ PLANS_BY_DATE = {
                 "servings": 369,
                 "cost_per_child_lkr": 68.88,
                 "total_cost_lkr": 25416,
-                "waste_risk": "Medium",
-                "consumption_rate": 0.88,
                 "nutrition": {
                     "energy_kcal": 630, "protein_g": 16.5, "iron_mg": 3.2, "vitamin_a_ug": 155,
                     "targets": TARGETS,
@@ -275,10 +263,9 @@ PLANS_BY_DATE = {
                     {"name": "Eggs", "quantity_kg": 9.22, "cost_lkr": 8302},
                     {"name": "Oil, Soy Sauce & Spices", "quantity_kg": 1.84, "cost_lkr": 2944},
                 ],
-                "explanation": (
+                "explanation_base": (
                     "Vegetable fried rice with egg is a popular Friday treat meal that fully meets "
-                    "nutrition targets, but costs LKR 10.63 more per child than rice & dhal and carries "
-                    "slightly higher waste risk from smaller portions being left uneaten."
+                    "nutrition targets, but costs LKR 10.63 more per child than rice & dhal."
                 ),
             },
         ],
@@ -286,41 +273,117 @@ PLANS_BY_DATE = {
 }
 
 
-@router.post("/plans/generate")
-def generate_plan(req: PlanRequest):
-    day = PLANS_BY_DATE.get(req.date, PLANS_BY_DATE[DEFAULT_DATE])
-    candidates = day["meals"]
+def _live_meal(base_meal: dict) -> dict:
+    """Overlay a static candidate meal with the current (feedback-adjusted) consumption rate."""
+    rate = STATE.get_rate(base_meal["meal"])
+    risk = waste_risk_label(rate)
 
-    affordable = [m for m in candidates if m["cost_per_child_lkr"] <= req.budget_per_child_lkr]
-
-    if affordable:
-        selected = affordable
-    else:
-        # Nothing fits the budget — fall back to the cheapest option and say so,
-        # rather than silently returning an empty plan.
-        cheapest = min(candidates, key=lambda m: m["cost_per_child_lkr"])
-        gap = round(cheapest["cost_per_child_lkr"] - req.budget_per_child_lkr, 2)
-        cheapest = {
-            **cheapest,
-            "explanation": (
-                f"{cheapest['explanation']} Note: this is the lowest-cost option available for this day, "
-                f"but it exceeds your LKR {req.budget_per_child_lkr:.2f} budget by LKR {gap:.2f} per child — "
-                "consider raising the budget or reducing portion size."
-            ),
-        }
-        selected = [cheapest]
-
-    ranked = [{**m, "rank": i + 1} for i, m in enumerate(selected)]
+    explanation = base_meal["explanation_base"]
+    baseline = BASELINE_CONSUMPTION_RATES.get(base_meal["meal"], rate)
+    if abs(rate - baseline) >= 0.02:
+        direction = "dropped" if rate < baseline else "risen"
+        explanation += (
+            f" Note: consumption rate has {direction} to {round(rate * 100)}% "
+            f"(from a {round(baseline * 100)}% baseline) based on recent feedback."
+        )
 
     return {
-        "plan_id": f"mock-plan-{req.date}",
+        **{k: v for k, v in base_meal.items() if k != "explanation_base"},
+        "consumption_rate": round(rate, 3),
+        "waste_risk": risk,
+        "explanation": explanation,
+    }
+
+
+_RISK_ORDER = {"Low": 0, "Medium": 1, "High": 2}
+
+
+def _rank_candidates(date: str, budget: float, exclude: set[str] | None = None):
+    day = PLANS_BY_DATE.get(date, PLANS_BY_DATE[DEFAULT_DATE])
+    exclude = exclude or set()
+
+    candidates = [_live_meal(m) for m in day["meals"] if m["meal"] not in exclude]
+    if not candidates:
+        # Everything on this day got rejected — fall back to the full list
+        # rather than returning nothing.
+        candidates = [_live_meal(m) for m in day["meals"]]
+
+    affordable = [m for m in candidates if m["cost_per_child_lkr"] <= budget]
+    pool = affordable if affordable else candidates
+
+    over_budget_note = None
+    if not affordable:
+        cheapest = min(pool, key=lambda m: m["cost_per_child_lkr"])
+        gap = round(cheapest["cost_per_child_lkr"] - budget, 2)
+        over_budget_note = (
+            f" Note: this is the lowest-cost option available for this day, but it exceeds your "
+            f"LKR {budget:.2f} budget by LKR {gap:.2f} per child — consider raising the budget or "
+            "reducing portion size."
+        )
+        pool = [cheapest]
+
+    # Feedback-driven ranking: waste risk beats raw cost. If a top pick's
+    # consumption rate has been dragged into "High" risk by recent
+    # feedback, a cheaper-but-riskier meal no longer automatically wins —
+    # this is the visible effect of the closed loop.
+    ranked = sorted(pool, key=lambda m: (_RISK_ORDER[m["waste_risk"]], m["cost_per_child_lkr"]))
+
+    if over_budget_note:
+        ranked[0] = {**ranked[0], "explanation": ranked[0]["explanation"] + over_budget_note}
+
+    return day, [{**m, "rank": i + 1} for i, m in enumerate(ranked)]
+
+
+@router.post("/plans/generate")
+def generate_plan(req: PlanRequest):
+    day, ranked = _rank_candidates(req.date, req.budget_per_child_lkr)
+    plan_id = f"mock-plan-{req.date}"
+
+    return {
+        "plan_id": plan_id,
         "date": req.date,
         "school": SCHOOL,
         "predicted_attendance": day["predicted_attendance"],
         "recommended_meals": ranked,
+        "status": STATE.get_plan_status(plan_id),
     }
+
+
+@router.post("/plans/{plan_id}/approve")
+def approve_plan(plan_id: str, req: ApproveRequest):
+    STATE.set_plan_status(plan_id, "approved")
+    return {"plan_id": plan_id, "status": "approved", "approved_by": req.approved_by}
+
+
+@router.post("/plans/{plan_id}/reject")
+def reject_plan(plan_id: str, req: RejectRequest):
+    date = plan_id.replace("mock-plan-", "")
+    if date not in PLANS_BY_DATE:
+        raise HTTPException(status_code=404, detail="Unknown plan date")
+
+    STATE.reject_meal(plan_id, req.rejected_meal)
+    STATE.set_plan_status(plan_id, "modified", meal=req.rejected_meal)
+
+    day, ranked = _rank_candidates(date, req.budget_per_child_lkr, exclude=STATE.rejected_meals.get(plan_id, set()))
+
+    return {
+        "plan_id": plan_id,
+        "date": date,
+        "school": SCHOOL,
+        "predicted_attendance": day["predicted_attendance"],
+        "recommended_meals": ranked,
+        "status": "modified",
+        "rejected_meal": req.rejected_meal,
+    }
+
+
+@router.post("/plans/{plan_id}/modify")
+def modify_plan(plan_id: str, req: ModifyRequest):
+    STATE.modifications[plan_id] = {"meal": req.meal, "servings": req.servings}
+    STATE.set_plan_status(plan_id, "modified", meal=req.meal)
+    return {"plan_id": plan_id, "status": "modified", "meal": req.meal, "servings": req.servings}
 
 
 @router.get("/plans/{plan_id}")
 def get_plan(plan_id: str):
-    return {"plan_id": plan_id, "status": "approved"}
+    return {"plan_id": plan_id, "status": STATE.get_plan_status(plan_id)}

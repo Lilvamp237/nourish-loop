@@ -3,11 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import AttendanceChart from "@/components/charts/AttendanceChart";
 import FoodGroupDonut from "@/components/charts/FoodGroupDonut";
-import { Users, Coins, Activity, Trash2, PiggyBank, Lightbulb, BrainCircuit } from "lucide-react";
+import TimelapseDemo from "@/components/TimelapseDemo";
+import { Users, Coins, Activity, Trash2, PiggyBank, Lightbulb, BrainCircuit, Leaf } from "lucide-react";
 
 export default async function OverviewPage() {
-  const data = await api.overview();
-  const { kpis, insight, model_mae, attendance_trend, food_group_coverage, school, date } = data;
+  const [data, timelapse] = await Promise.all([api.overview(), api.timelapse()]);
+  const { kpis, hero_stat, insight, model_mae, model_version, attendance_trend, food_group_coverage, school, date } = data;
 
   const [y, m, d] = date.split("-").map(Number);
   const displayDate = new Date(y, m - 1, d).toLocaleDateString("en-LK", {
@@ -68,6 +69,20 @@ export default async function OverviewPage() {
         <p className="text-gray-500 text-sm mt-1">{school} · Today, {displayDate}</p>
       </div>
 
+      {/* Hero impact stat — the one number worth remembering */}
+      <Card className="border-0 shadow-sm overflow-hidden relative" style={{ background: "linear-gradient(135deg, #0f2137 0%, #12563f 100%)" }}>
+        <CardContent className="p-7 flex items-center gap-6 relative z-10">
+          <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center shrink-0">
+            <Leaf className="w-7 h-7 text-emerald-400" />
+          </div>
+          <div>
+            <p className="text-4xl font-bold text-white leading-none">{hero_stat.value}</p>
+            <p className="text-emerald-300 font-medium text-sm mt-2">{hero_stat.label}</p>
+            <p className="text-slate-400 text-xs mt-1">{hero_stat.sub}</p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* KPI row */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {kpiCards.map(({ label, value, sub, icon: Icon, color, bg }) => (
@@ -95,6 +110,9 @@ export default async function OverviewPage() {
         </CardContent>
       </Card>
 
+      {/* Live simulation — proves the closed loop, not just claims it */}
+      <TimelapseDemo frames={timelapse.frames} />
+
       {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 border border-gray-100 shadow-sm">
@@ -121,7 +139,7 @@ export default async function OverviewPage() {
       {/* Model badge */}
       <div className="flex items-center gap-2 text-xs text-gray-400">
         <BrainCircuit className="w-4 h-4" />
-        <span>Demand model · MAE = ±{model_mae} students · v0.1-mock</span>
+        <span>Demand model · MAE = ±{model_mae} students · {model_version}</span>
         <Badge variant="secondary" className="text-xs">Prototype</Badge>
       </div>
     </div>
