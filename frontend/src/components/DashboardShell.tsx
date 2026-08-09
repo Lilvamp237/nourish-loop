@@ -69,12 +69,12 @@ export default function DashboardShell({ children, role }: { children: React.Rea
         className="md:hidden fixed top-0 inset-x-0 z-30 flex items-center justify-between px-4 py-3"
         style={{ backgroundColor: "#0f2137" }}
       >
-        <div className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500">
             <UtensilsCrossed className="w-4 h-4 text-white" />
           </div>
           <span className="text-white text-base font-bold tracking-tight">NourishLoop</span>
-        </div>
+        </Link>
         <button
           onClick={() => setMobileOpen(true)}
           aria-label="Open menu"
@@ -102,12 +102,12 @@ export default function DashboardShell({ children, role }: { children: React.Rea
       >
         {/* Logo */}
         <div className="flex items-center justify-between gap-3 px-6 py-7 border-b border-white/10">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald-500">
               <UtensilsCrossed className="w-4 h-4 text-white" />
             </div>
             <span className="text-white text-lg font-bold tracking-tight">NourishLoop</span>
-          </div>
+          </Link>
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu"
